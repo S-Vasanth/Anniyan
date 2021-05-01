@@ -17,3 +17,14 @@ nav ul {
   justify-content: space-around;
   align-items: center;
 }
+
+body div.type ul a{
+  margin: 70px 60px 80px 100px;
+  font-weight: bold;
+  color:white;
+  background-color: #563d7c;
+  padding: 8px 8px;
+  text-decoration: none;
+  border-radius: 15px;
+  align-items: center;
+}
