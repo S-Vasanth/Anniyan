@@ -40,9 +40,7 @@ router.post("/register", (req, res) => {
         });
       }
 
-      //let hashedpassword= await bcrypt.hash(password,8)
-      //console.log(hashedpassword)
-
+      
       db.query(
         "INSERT INTO allow SET ?",
         { name: name, email: email, password: password },
