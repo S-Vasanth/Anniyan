@@ -1,15 +1,16 @@
 const express = require("express");
-const jwt = require("jsonwebtoken");
+const db = require("./../db");
+//const jwt = require("jsonwebtoken");
 //const bcrypt= require('bcryptjs')
-const mysql = require("mysql");
+//const mysql = require("mysql");
 const router = express.Router();
-
-const db = mysql.createConnection({
-  host: process.env.DATABASE_HOST,
-  user: process.env.DATABASE_USER,
-  password: process.env.DATABASE_PASSWORD,
-  database: process.env.DATABASE,
-});
+const getData = db.getConnection();
+// const db = mysql.createConnection({
+//   host: process.env.DATABASE_HOST,
+//   user: process.env.DATABASE_USER,
+//   password: process.env.DATABASE_PASSWORD,
+//   database: process.env.DATABASE,
+// });
 
 router.post("/register", (req, res) => {
   console.log(req.body);
@@ -22,7 +23,7 @@ router.post("/register", (req, res) => {
     });
   }
 
-  db.query(
+  getData.query(
     "SELECT email FROM allow WHERE email=?",
     [email],
     async (error, results) => {
@@ -41,7 +42,7 @@ router.post("/register", (req, res) => {
       }
 
       
-      db.query(
+      getData.query(
         "INSERT INTO allow SET ?",
         { name: name, email: email, password: password },
         (error, results) => {
@@ -67,7 +68,7 @@ router.post("/userlogin", (req, res) => {
         message: "please provide an email and password",
       });
     }
-    db.query("SELECT * FROM allow WHERE email=?", [email], (error, results) => {
+    getData.query("SELECT * FROM allow WHERE email=?", [email], (error, results) => {
       console.log(results);
       console.log(results[0].password);
       console.log(password);
@@ -98,7 +99,7 @@ router.post("/adminlogin", (req, res) => {
       });
     }
     if (email == "vasanth7085@gmail.com" && password == "Vasanth@25#$") {
-      db.query(
+      getData.query(
         "SELECT name,phoneno,place,complaint FROM complaint",
         (error, results) => {
           res.send(results);
@@ -124,7 +125,7 @@ router.post("/complaint", (req, res) => {
     });
   }
 
-  db.query(
+  getData.query(
     "INSERT INTO complaint SET ?",
     { name: name, phoneno: number, place: place, complaint: complaint },
     (error, results) => {
